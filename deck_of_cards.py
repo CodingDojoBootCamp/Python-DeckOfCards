@@ -68,7 +68,9 @@ class Card(object):
 
 
 d = Deck()
-print len(d.cards)
+print d.total
+
+d.displayCards()
 
 c = Card(4, 6)
 print c
