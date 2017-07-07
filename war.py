@@ -20,18 +20,19 @@ class War(CardGame):
         self.deal()
         pot = CardSet()
         while(self.players[0].count > 0 and self.players[1].count > 0):
-            print str(self.players[0]) + ' ## ' + str(self.players[1])
             self.playRound()
-
         if self.players[0].count > self.players[1].count:
-            print 'WINNER!!! - ' + self.players[0].name
+            print 'WINNER!!! - {} won with a {}'.format(self.players[0].name, self.players[0].cards[51])
         else:
-            print 'WINNER!!! - ' + self.players[1].name
+            print 'WINNER!!! - {} won with a {}'.format(self.players[1].name, self.players[1].cards[51])
 
     def playRound(self, pot=CardSet()):
+        # Draw Cards
         p1Card = self.players[0].remove()
         p2Card = self.players[1].remove()
+        # Put them in the Pot
         pot.cards.extend([p1Card, p2Card])
+        print '{} cards and drew a {} -- {} cards and drew a {}'.format(str(self.players[0]), p1Card, str(self.players[1]), p2Card)
         if p1Card == p2Card:
 
             self.tieBreaker(pot)
@@ -39,10 +40,11 @@ class War(CardGame):
         if p1Card > p2Card:
             # TODO make add support adding multiple cards
             self.players[0].cards.extend(pot.cards)
+            # Delete the Pot
             pot.cards[:] = []
-            # self.players[0].add(p1Card).add(p2Card)
         else:
             self.players[1].cards.extend(pot.cards)
+            # Delete the Pot
             pot.cards[:] = []
             # self.players[1].add(p1Card).add(p2Card)
 
@@ -71,3 +73,5 @@ class War(CardGame):
 
 g1 = War([Player('Justin'), Player('Alisha')])
 g1.play()
+# print g1.players[0].displayCards()
+# print g1.players[1].displayCards()

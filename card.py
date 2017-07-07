@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Check this out for cards display https://en.wikipedia.org/wiki/Playing_cards_in_Unicode
 # Create a Suit Class???
-Suits = {1: {'Suit': 'Clubs',
+SUITS = {1: {'Suit': 'Clubs',
              'Symbol': '♣'},
          2:  {'Suit': 'Diamonds',
               'Symbol': '♦'},
@@ -28,7 +28,7 @@ class Card(object):
             num_result += "King"
         else:
             num_result += str(self.number)
-        return num_result + " of " + Suits[self.suit]['Suit']
+        return num_result + " of " + SUITS[self.suit]['Suit']
 
     # Override Operators <, <=, >, >=, ==, != will allow cards
     # to be compared ignoring the suit

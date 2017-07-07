@@ -7,7 +7,7 @@ class Player(CardSet):
         self.name = name
 
     def __str__(self):
-        return self.name + ' - ' + str(self.count)
+        return self.name + ' has ' + str(self.count)
 
     def displayCards(self):
         print self.name + '\r\n====================\r\n' + super(Player, self).__str__()
