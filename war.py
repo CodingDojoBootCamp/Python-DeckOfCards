@@ -18,36 +18,45 @@ class War(CardGame):
     def play(self):
         # can we make this support more than two players
         self.deal()
-        while(self.players[0].count > 0 and self.players[0].count > 0):
-            self.playRound()
+        pot = CardSet()
+        while(self.players[0].count > 0 and self.players[1].count > 0):
             print str(self.players[0]) + ' ## ' + str(self.players[1])
+            self.playRound()
+
         if self.players[0].count > self.players[1].count:
             print 'WINNER!!! - ' + self.players[0].name
         else:
             print 'WINNER!!! - ' + self.players[1].name
 
-    def playRound(self, pot=[]):
+    def playRound(self, pot=CardSet()):
         p1Card = self.players[0].remove()
         p2Card = self.players[1].remove()
+        pot.cards.extend([p1Card, p2Card])
         if p1Card == p2Card:
-            pot = CardSet()
-            pot.cards.extend([p1Card, p2Card])
-            if self.players[0].count > 4 and self.players[1].count > 4:
+
+            if self.players[0].count > 3 and self.players[1].count > 3:
                 self.tieBreaker(pot)
-            elif self.players[0].count < 4:
-                self.players[1].cards.extend(pot.cards)
-                while self.players[0].count > 0:
-                    self.players[1].add(self.players[0].remove())
-            elif self.players[1].count < 4:
-                self.players[0].cards.extend(pot.cards)
-                while self.players[1].count > 0:
-                    self.players[0].add(self.players[1].remove())
+            else:
+                if self.players[0].count < 4:
+                    self.players[1].cards.extend(pot.cards)
+                    pot.cards[:] = []
+                    while self.players[0].count > 0:
+                        self.players[1].add(self.players[0].remove())
+                elif self.players[1].count < 4:
+                    self.players[0].cards.extend(pot.cards)
+                    pot.cards[:] = []
+                    while self.players[1].count > 0:
+                        self.players[0].add(self.players[1].remove())
 
         if p1Card > p2Card:
             # TODO make add support adding multiple cards
-            self.players[0].add(p1Card).add(p2Card)
+            self.players[0].cards.extend(pot.cards)
+            pot.cards[:] = []
+            # self.players[0].add(p1Card).add(p2Card)
         else:
-            self.players[1].add(p1Card).add(p2Card)
+            self.players[1].cards.extend(pot.cards)
+            pot.cards[:] = []
+            # self.players[1].add(p1Card).add(p2Card)
 
     def tieBreaker(self, pot):
         print 'WAR!!!!!'
@@ -63,5 +72,7 @@ class War(CardGame):
 p1 = Player('Justin')
 p2 = Player('Alisha')
 g1 = War([p1, p2])
+g1.deal()
+print p1.count
 
 g1.play()
