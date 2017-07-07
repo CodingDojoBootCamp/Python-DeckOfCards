@@ -34,19 +34,7 @@ class War(CardGame):
         pot.cards.extend([p1Card, p2Card])
         if p1Card == p2Card:
 
-            if self.players[0].count > 3 and self.players[1].count > 3:
-                self.tieBreaker(pot)
-            else:
-                if self.players[0].count < 4:
-                    self.players[1].cards.extend(pot.cards)
-                    pot.cards[:] = []
-                    while self.players[0].count > 0:
-                        self.players[1].add(self.players[0].remove())
-                elif self.players[1].count < 4:
-                    self.players[0].cards.extend(pot.cards)
-                    pot.cards[:] = []
-                    while self.players[1].count > 0:
-                        self.players[0].add(self.players[1].remove())
+            self.tieBreaker(pot)
 
         if p1Card > p2Card:
             # TODO make add support adding multiple cards
@@ -60,19 +48,26 @@ class War(CardGame):
 
     def tieBreaker(self, pot):
         print 'WAR!!!!!'
-        (pot.add(self.players[0].remove())
-            .add(self.players[0].remove())
-            .add(self.players[0].remove()))
-        (pot.add(self.players[1].remove())
-            .add(self.players[1].remove())
-            .add(self.players[1].remove()))
-        self.playRound(pot)
+        if self.players[0].count > 3 and self.players[1].count > 3:
+            (pot.add(self.players[0].remove())
+                .add(self.players[0].remove())
+                .add(self.players[0].remove()))
+            (pot.add(self.players[1].remove())
+                .add(self.players[1].remove())
+                .add(self.players[1].remove()))
+            self.playRound(pot)
+        else:
+            if self.players[0].count < 4:
+                self.players[1].cards.extend(pot.cards)
+                pot.cards[:] = []
+                while self.players[0].count > 0:
+                    self.players[1].add(self.players[0].remove())
+            elif self.players[1].count < 4:
+                self.players[0].cards.extend(pot.cards)
+                pot.cards[:] = []
+                while self.players[1].count > 0:
+                    self.players[0].add(self.players[1].remove())
 
 
-p1 = Player('Justin')
-p2 = Player('Alisha')
-g1 = War([p1, p2])
-g1.deal()
-print p1.count
-
+g1 = War([Player('Justin'), Player('Alisha')])
 g1.play()
