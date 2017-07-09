@@ -1,5 +1,5 @@
-from card import *
-from deck import *
+from deck import card
+from deck import deck
 from player import *
 from game import *
 
