@@ -4,3 +4,4 @@
 * outlier cards - most ranks will be created for every suit but we may want some that are unique (ie: jokers) create a way so that when you create a deck you can add special cards and assign them values.
 * When creating a deck you should be able to pass comparison functions to adjust how cards are compared
 * When creating a deck / card you can specify how the card will be displayed to screen
+* make most constructors/methods use the *args and/or **kwargs where it makes sense.
